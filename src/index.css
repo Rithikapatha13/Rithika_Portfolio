@@ -34,13 +34,13 @@ body {
   --color-accent: #f43f5e;
   --color-background: #0a0a0a;
   --color-surface: #1a1a1a;
-  
+
   --primary: #6366f1;
   --primary-glow: rgba(99, 102, 241, 0.5);
   --secondary: #a855f7;
   --background: #030712;
   --surface: #111827;
-  
+
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
 }
@@ -50,7 +50,7 @@ body {
     @apply border-white/5;
     cursor: none !important;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
@@ -75,19 +75,43 @@ body {
 }
 
 @keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
 }
 
 .animate-gradient {
@@ -104,10 +128,10 @@ body {
 
 .mesh-gradient {
   background-color: var(--background);
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
 }
 
 /* Custom Cursor */
@@ -138,10 +162,45 @@ body {
 }
 
 @media (max-width: 768px) {
-  .cursor-dot, .cursor-outline {
+
+  .cursor-dot,
+  .cursor-outline {
     display: none;
   }
+
   * {
     cursor: auto !important;
   }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-flow {
+  background-size: 200% 200%;
+  animation: border-flow 4s linear infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
 }
