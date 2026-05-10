@@ -947,80 +947,183 @@ const Certifications = () => {
   );
 };
 
-const ContactForm = () => (
-  <section id="contact" className="py-20 bg-white/[0.02]">
-    <div className="container mx-auto px-6">
-      <SectionHeading subtitle="Ready to bring your next big idea to life?">
-        Let's Connect
-      </SectionHeading>
-      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Contact Information</h3>
-            <p className="text-white/60 mb-8">Feel free to reach out for collaborations or just a friendly hello.</p>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary"><Mail size={20} /></div>
-                <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-widest">Email</p>
-                  <p className="text-white font-medium">rithikapatha1310@gmail.com</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
-                <div className="p-3 bg-secondary/10 rounded-xl text-secondary"><Linkedin size={20} /></div>
-                <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-widest">LinkedIn</p>
-                  <p className="text-white font-medium">rithika-patha-a795b3227</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary"><Phone size={20} /></div>
-                <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-widest">Phone</p>
-                  <a href="tel:+918309663919" className="text-white font-medium hover:text-primary transition-colors">+91 8309663919</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [status, setStatus] = useState('idle'); // 'idle', 'submitting', 'success', 'error'
 
-        <motion.form
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="glass p-8 rounded-3xl space-y-4"
-        >
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Name</label>
-              <input type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors" />
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('https://formspree.io/f/mqengjow', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        
+        // Reset status after 5 seconds
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-20 bg-white/[0.02]">
+      <div className="container mx-auto px-6">
+        <SectionHeading subtitle="Ready to bring your next big idea to life?">
+          Let's Connect
+        </SectionHeading>
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Contact Information</h3>
+              <p className="text-white/60 mb-8">Feel free to reach out for collaborations or just a friendly hello.</p>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
+                  <div className="p-3 bg-primary/10 rounded-xl text-primary"><Mail size={20} /></div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase font-bold tracking-widest">Email</p>
+                    <p className="text-white font-medium">rithikapatha1310@gmail.com</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
+                  <div className="p-3 bg-secondary/10 rounded-xl text-secondary"><Linkedin size={20} /></div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase font-bold tracking-widest">LinkedIn</p>
+                    <p className="text-white font-medium">rithika-patha-a795b3227</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4 glass p-4 rounded-2xl">
+                  <div className="p-3 bg-primary/10 rounded-xl text-primary"><Phone size={20} /></div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase font-bold tracking-widest">Phone</p>
+                    <a href="tel:+918309663919" className="text-white font-medium hover:text-primary transition-colors">+91 8309663919</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass p-8 rounded-3xl space-y-4"
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="John Doe"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="john@example.com"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors"
+                />
+              </div>
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Email</label>
-              <input type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors" />
+              <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Subject</label>
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                placeholder="Project Inquiry"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors"
+              />
             </div>
-          </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Subject</label>
-            <input type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Message</label>
-            <textarea placeholder="Tell me about your project..." rows="4" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors resize-none"></textarea>
-          </div>
-          <button className="w-full py-4 bg-primary rounded-2xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-            Send Message
-          </button>
-        </motion.form>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-white/40 uppercase tracking-widest ml-2">Message</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                placeholder="Tell me about your project..."
+                rows="4"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-primary outline-none transition-colors resize-none"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              disabled={status === 'submitting'}
+              className={`w-full py-4 rounded-2xl font-bold transition-all shadow-lg flex items-center justify-center space-x-2 ${
+                status === 'success' 
+                  ? 'bg-green-500 shadow-green-500/20' 
+                  : status === 'error'
+                  ? 'bg-red-500 shadow-red-500/20'
+                  : 'bg-primary hover:bg-primary/90 shadow-primary/20'
+              }`}
+            >
+              {status === 'submitting' ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                  />
+                  <span>Sending...</span>
+                </>
+              ) : status === 'success' ? (
+                <span>Message Sent!</span>
+              ) : status === 'error' ? (
+                <span>Error! Try Again</span>
+              ) : (
+                <span>Send Message</span>
+              )}
+            </button>
+          </motion.form>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Footer = () => (
   <footer id="contact" className="py-20 border-t border-white/5">
