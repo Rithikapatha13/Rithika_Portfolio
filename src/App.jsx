@@ -14,7 +14,8 @@ import {
   Sparkles,
   Zap,
   ArrowRight,
-  Phone
+  Phone,
+  Download
 } from 'lucide-react';
 import { useMotionValue, useSpring, useTransform } from 'framer-motion';
 
@@ -294,11 +295,28 @@ const Hero = () => (
                   <ChevronRight size={18} />
                 </a>
               </Magnetic>
-              <Magnetic>
-                <button className="px-8 py-4 glass rounded-full font-bold glass-hover transition-all border border-white/10">
-                  Download CV
-                </button>
-              </Magnetic>
+              <div className="flex gap-3">
+                <Magnetic>
+                  <a 
+                    href="/resume-rithika.pdf" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-4 glass rounded-full font-bold glass-hover transition-all border border-white/10 block text-sm"
+                  >
+                    View CV
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <a 
+                    href="/resume-rithika.pdf" 
+                    download="Resume-Rithika.pdf"
+                    className="p-4 bg-white/5 hover:bg-primary/20 rounded-full transition-all flex items-center justify-center group"
+                    title="Download Resume"
+                  >
+                    <Download size={18} className="group-hover:scale-110 transition-transform" />
+                  </a>
+                </Magnetic>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <Magnetic>
